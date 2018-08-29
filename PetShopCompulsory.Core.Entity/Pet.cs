@@ -2,7 +2,7 @@
 
 namespace PetShopCompulsory.Core.Entity
 {
-    public enum Types { Cat, Dog, Snake, Goat, Fish, Turtle, Hamster, Parrot}
+    public enum Types { Cat, Dog, Snake, Goat, Fish, Turtle, Hamster, Parrot, Rabbit, Hedgehog}
 
     public class Pet
     {

@@ -9,7 +9,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
     {
         public IEnumerable<Pet> ReadPets()
         {
-            throw new NotImplementedException();
+            return FakeDB.Pets;
         }
     }
 }

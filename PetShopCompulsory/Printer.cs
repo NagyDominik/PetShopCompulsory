@@ -17,6 +17,7 @@ namespace PetShopCompulsory
 
         public void StartUp()
         {
+            
             string[] defaultmenu = {
                 "Add pet",
                 "List pets",
@@ -68,6 +69,8 @@ namespace PetShopCompulsory
             return selection;
         }
 
+        #region Tools
+
         void ListPets(List<Pet> pets)
         {
             Console.WriteLine("Id, Name, Type");
@@ -86,5 +89,7 @@ namespace PetShopCompulsory
             }
             return a;
         }
+
+        #endregion
     }
 }

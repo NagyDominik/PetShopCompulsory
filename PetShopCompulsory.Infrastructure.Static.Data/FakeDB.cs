@@ -15,11 +15,11 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 ID = 1,
                 Name = "George",
                 Type = Types.Goat,
-                Birthdate = ,
+                Birthdate = new DateTime(2011, 11, 11),
                 SoldDate = ,
                 Color = "Brown",
                 PreviousOwner = "George",
-                Price = 49.99
+                Price = 49.99,
             };
         }
     }

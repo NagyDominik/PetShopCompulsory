@@ -17,6 +17,6 @@ namespace PetShopCompulsory.Core.DomainService
         Pet UpdatePet(Pet petUpdate);
 
         //Delete
-        Pet DeletePet(Pet petDelete);
+        Pet DeletePet(int id);
     }
 }

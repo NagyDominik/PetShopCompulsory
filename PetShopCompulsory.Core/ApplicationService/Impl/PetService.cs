@@ -31,34 +31,42 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
             return newPet;
         }
 
-        public List<Pet> GetPets()
-        {
-            return _petRepository.ReadPets().ToList();
-        }
-
-        public List<Pet> GetPetsByType()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pet RemovePet(Pet petDelete)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pet RemovePetByID(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Pet SaveNewPet(Pet newPet)
         {
             return _petRepository.SavePet(newPet);
         }
 
+        #region Getter methds
+
+        public List<Pet> GetAllPets()
+        {
+            return _petRepository.ReadPets().ToList();
+        }
+
+        public List<Pet> GetPetsByType(Types type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Pet> GetPetsPriceOrdered()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Pet> GetPetsTopCheap(int num)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         public Pet UpdatePet(Pet petUpdate)
         {
             return _petRepository.UpdatePet(petUpdate);
+        }
+
+        public Pet RemovePet(int id)
+        {
+            return _petRepository.DeletePet(id);
         }
     }
 }

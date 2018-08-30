@@ -13,14 +13,16 @@ namespace PetShopCompulsory.Core
         Pet SaveNewPet(Pet newPet);
 
         //Read
-        List<Pet> GetPets();
-        List<Pet> GetPetsByType();
+        List<Pet> GetAllPets();
+        List<Pet> GetPetsByType(Types type);
+        List<Pet> GetPetsPriceOrdered();
+        List<Pet> GetPetsTopCheap(int num);
 
         //Update
         Pet UpdatePet(Pet petUpdate);
 
         //Remove
-        Pet RemovePet(Pet petDelete);
-        Pet RemovePetByID(int id);
+        Pet RemovePet(int id);
+
     }
 }

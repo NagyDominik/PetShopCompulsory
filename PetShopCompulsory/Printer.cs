@@ -2,6 +2,7 @@
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PetShopCompulsory
@@ -31,6 +32,8 @@ namespace PetShopCompulsory
             int selection = 0;
             while (selection != 8)
             {
+                Console.Clear();
+                Console.WriteLine("Select an option");
                 selection = WriteMenu(defaultmenu);
                 switch (selection)
                 {
@@ -56,17 +59,17 @@ namespace PetShopCompulsory
                         break;
                     case 5:
                         Console.WriteLine("Listing pets by type");
-
+                        PetsByType();
                         Console.ReadLine();
                         break;
                     case 6:
                         Console.WriteLine("Listing pets by price");
-
+                        PetsByPrice();
                         Console.ReadLine();
                         break;
                     case 7:
                         Console.WriteLine("5 cheapest pets");
-
+                        PetsTopCheap();
                         Console.ReadLine();
                         break;
                     default:
@@ -78,9 +81,7 @@ namespace PetShopCompulsory
 
         int WriteMenu(string[] elements)
         {
-            Console.Clear();
             int num = 1;
-            Console.WriteLine("Select an option");
             foreach (var e in elements)
             {
                 Console.WriteLine(num++ + ". " + e);
@@ -130,6 +131,33 @@ namespace PetShopCompulsory
                 Console.Write("Deleted!");
         }
 
+        void PetsByType()
+        {
+            string[] typesasstring = Enum.GetNames(typeof(Types));
+            Console.WriteLine("Select a pet type(ID)");
+            int selection = WriteMenu(typesasstring);
+            Types selectionType = ToType(typesasstring[selection - 1]);
+            List<Pet> pets = _petservice.GetPetsByType(selectionType);
+            ListPets(pets);
+        }
+
+        void PetsByPrice()
+        {
+            string order = "";
+            while (order != "Asc" && order != "Desc")
+            {
+                order = QuestionInput("Select the order of listing (Asc/Desc): ");
+            }
+            List<Pet> pets = _petservice.GetPetsPriceOrdered(order);
+            ListPets(pets);
+        }
+
+        void PetsTopCheap()
+        {
+            List<Pet> pets = _petservice.GetPetsTopCheap(5);
+            ListPets(pets);
+        }
+
         #region Tools
 
         int SelectPet()
@@ -154,7 +182,8 @@ namespace PetShopCompulsory
 
         void ListPets(List<Pet> pets)
         {
-            foreach (var pet in pets) {
+            foreach (var pet in pets)
+            {
                 Console.WriteLine(pet.ToString());
                 Console.WriteLine();
             }
@@ -206,7 +235,7 @@ namespace PetShopCompulsory
 
         string FirstLetterToCapital(string input)
         {
-            if (input != null)
+            if (input != null && input != "")
                 return char.ToUpper(input[0]) + input.Substring(1);
             return null;
         }

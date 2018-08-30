@@ -45,17 +45,22 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public List<Pet> GetPetsByType(Types type)
         {
-            throw new NotImplementedException();
+            return _petRepository.ReadPets().Where(p => p.Type == type).ToList();
         }
 
-        public List<Pet> GetPetsPriceOrdered()
+        public List<Pet> GetPetsPriceOrdered(string order)
         {
-            throw new NotImplementedException();
+            if (order == "Asc")
+                return _petRepository.ReadPets().OrderBy(pet => pet.Price).ToList();
+            else if (order == "Desc")
+                return _petRepository.ReadPets().OrderByDescending(pet => pet.Price).ToList();
+            else
+                return null;
         }
 
         public List<Pet> GetPetsTopCheap(int num)
         {
-            throw new NotImplementedException();
+            return _petRepository.ReadPets().OrderBy(p => p.Price).Take(num).ToList();
         }
         #endregion
 

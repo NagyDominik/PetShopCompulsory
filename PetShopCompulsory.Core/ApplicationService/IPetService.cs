@@ -15,7 +15,7 @@ namespace PetShopCompulsory.Core
         //Read
         List<Pet> GetAllPets();
         List<Pet> GetPetsByType(Types type);
-        List<Pet> GetPetsPriceOrdered();
+        List<Pet> GetPetsPriceOrdered(string order);
         List<Pet> GetPetsTopCheap(int num);
 
         //Update

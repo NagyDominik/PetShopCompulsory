@@ -57,7 +57,7 @@ namespace PetShopCompulsory
             string name = QuestionInput("Name: ");
             Types type = ToType(QuestionInput("Type: "));
             DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM_DD): "));
-            DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM_DD): "));
+            DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
             string color = QuestionInput("Color: ");
             string prevOwner = QuestionInput("PreviousOwner: ");
             double price = ToNumberDouble(QuestionInput("Price: "));
@@ -101,7 +101,7 @@ namespace PetShopCompulsory
         string QuestionInput(string question)
         {
             Console.Write(question);
-            return Console.ReadLine();
+            return FirstLetterToCapital(Console.ReadLine());
         }
 
         void ListPets(List<Pet> pets)
@@ -138,7 +138,7 @@ namespace PetShopCompulsory
         Types ToType(string type)
         {
             Types a;
-            if (!Types.TryParse(type[0].ToString().ToUpper() + type.Substring(1), out a))
+            if (!Types.TryParse(type, out a))
             {
                 Console.WriteLine("The type does not exist");
                 Console.Write("New: ");
@@ -157,6 +157,15 @@ namespace PetShopCompulsory
                 ToDateTime(Console.ReadLine());
             }
             return a;
+        }
+
+        string FirstLetterToCapital(string input)
+        {
+            if (input != null)
+            {
+                return char.ToUpper(input[0]) + input.Substring(1);
+            }
+            return null;
         }
         #endregion
     }

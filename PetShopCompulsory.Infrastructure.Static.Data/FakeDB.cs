@@ -9,11 +9,12 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
     public static class FakeDB
     {
         public static IEnumerable<Pet> Pets;
+        public static int PetID = 1;
 
-        static void InitData()
+        public static void InitData()
         {
             Pet pet1 = new Pet() {
-                ID = 1,
+                ID = PetID++,
                 Name = "George",
                 Type = Types.Goat,
                 Birthdate = new DateTime(2011, 11, 11),
@@ -23,7 +24,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Price = 49.99,
             };
             Pet pet2 = new Pet() {
-                ID = 1,
+                ID = PetID++,
                 Name = "Henry",
                 Type = Types.Hedgehog,
                 Birthdate = new DateTime(2014, 04, 04),
@@ -33,7 +34,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Price = 29.99
             };
             Pet pet3 = new Pet() {
-                ID = 1,
+                ID = PetID++,
                 Name = "Frederic",
                 Type = Types.Fish,
                 Birthdate = new DateTime(2011, 12, 12),
@@ -43,9 +44,8 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Price = 19.99
             };
 
-            Pets.ToList().Add(pet1);
-            Pets.ToList().Add(pet2);
-            Pets.ToList().Add(pet3);
+            Pets = new List<Pet> {pet1, pet2, pet3};
         }
+
     }
 }

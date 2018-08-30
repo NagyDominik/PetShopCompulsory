@@ -2,6 +2,7 @@
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PetShopCompulsory.Infrastructure.Static.Data
 {
@@ -10,6 +11,25 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
         public IEnumerable<Pet> ReadPets()
         {
             return FakeDB.Pets;
+        }
+
+        public Pet SavePet(Pet petSave)
+        {
+            petSave.ID = FakeDB.PetID++;
+            List<Pet> pets = FakeDB.Pets.ToList();
+            pets.Add(petSave);
+            FakeDB.Pets = pets;
+            return petSave;
+        }
+
+        public Pet UpdatePet(Pet petUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Pet DeletePet(Pet petDelete)
+        {
+            throw new NotImplementedException();
         }
     }
 }

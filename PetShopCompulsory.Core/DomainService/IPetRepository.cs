@@ -7,6 +7,16 @@ namespace PetShopCompulsory.Core.DomainService
 {
     public interface IPetRepository
     {
+        //Read
         IEnumerable<Pet> ReadPets();
+
+        //Save
+        Pet SavePet(Pet petSave);
+
+        //Update
+        Pet UpdatePet(Pet petUpdate);
+
+        //Delete
+        Pet DeletePet(Pet petDelete);
     }
 }

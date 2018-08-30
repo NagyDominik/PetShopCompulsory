@@ -14,5 +14,11 @@ namespace PetShopCompulsory.Core.Entity
         public string Color { get; set; }
         public string PreviousOwner { get; set; }
         public double Price { get; set; }
+
+        public override string ToString()
+        {
+            return "ID: " + ID + "  Name: " + Name +"  Type: " + Type + "  Birthdate: " + Birthdate + "\n" +
+                   "SoldDate: " + SoldDate + "  Color: " + Color + "  PreviousOwner: " + PreviousOwner + "  Price: " + Price;
+        }
     }
 }

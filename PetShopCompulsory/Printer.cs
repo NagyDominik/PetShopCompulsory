@@ -52,6 +52,32 @@ namespace PetShopCompulsory
 
         }
 
+        int WriteMenu(string[] elements)
+        {
+            Console.Clear();
+            int num = 1;
+            Console.WriteLine("Select an option");
+            foreach (var e in elements)
+            {
+                Console.WriteLine(num++ + ". " + e);
+            }
+            bool passed = false;
+            int selection = 0;
+            while (!passed)
+            {
+                selection = ToNumberInt(Console.ReadLine());
+                if (selection > elements.Length || selection < 1)
+                {
+                    Console.WriteLine("Invalid selection! Please select an existing menu item");
+                }
+                else
+                {
+                    passed = true;
+                }
+            }
+            return selection;
+        }
+
         void AddPet()
         {
             string name = QuestionInput("Name: ");
@@ -74,26 +100,9 @@ namespace PetShopCompulsory
             }
         }
 
-        int WriteMenu(string[] elements)
+        void UpdatePet()
         {
-            Console.Clear();
-            int num = 1;
-            Console.WriteLine("Select an option");
-            foreach (var e in elements) {
-                Console.WriteLine(num++ + ". " + e);
-            }
-            bool passed = false;
-            int selection = 0;
-            while (!passed) {
-                selection = ToNumberInt(Console.ReadLine());
-                if (selection > elements.Length || selection < 1) {
-                    Console.WriteLine("Invalid selection! Please select an existing menu item");
-                }
-                else {
-                    passed = true;
-                }
-            }
-            return selection;
+
         }
 
         #region Tools
@@ -114,47 +123,44 @@ namespace PetShopCompulsory
 
         int ToNumberInt(string numInt)
         {
-            int a;
-            if (!int.TryParse(numInt, out a)) {
+            if (!int.TryParse(numInt, out int a))
+            {
                 Console.WriteLine("Non-numeric input");
                 Console.Write("New: ");
-                ToNumberInt(Console.ReadLine());
+                a = ToNumberInt(Console.ReadLine());
             }
             return a;
         }
 
         double ToNumberDouble(string numDouble)
         {
-            double a;
-            if (!double.TryParse(numDouble, out a))
+            if (!double.TryParse(numDouble, out double a))
             {
                 Console.WriteLine("Non-numeric input");
                 Console.Write("New: ");
-                ToNumberDouble(Console.ReadLine());
+                a = ToNumberDouble(Console.ReadLine());
             }
             return a;
         }
 
         Types ToType(string type)
         {
-            Types a;
-            if (!Types.TryParse(type, out a))
+            if (!Types.TryParse(type, out Types a))
             {
                 Console.WriteLine("The type does not exist");
                 Console.Write("New: ");
-                ToType(Console.ReadLine());
+                a = ToType(Console.ReadLine());
             }
             return a;
         }
 
         DateTime ToDateTime(string datetime)
         {
-            DateTime a;
-            if (!DateTime.TryParse(datetime, out a))
+            if (!DateTime.TryParse(datetime, out DateTime a))
             {
                 Console.WriteLine("Incorrect format (YYYY-MM-DD)");
                 Console.Write("New: ");
-                ToDateTime(Console.ReadLine());
+                a = ToDateTime(Console.ReadLine());
             }
             return a;
         }

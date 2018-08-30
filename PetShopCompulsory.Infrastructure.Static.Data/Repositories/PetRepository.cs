@@ -24,7 +24,10 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
 
         public Pet UpdatePet(Pet petUpdate)
         {
-            throw new NotImplementedException();
+            List<Pet> pets = FakeDB.Pets.ToList();
+            Pet pet = pets.FirstOrDefault(p => p.ID == petUpdate.ID);
+            pet = petUpdate;
+
         }
 
         public Pet DeletePet(Pet petDelete)

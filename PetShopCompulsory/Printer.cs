@@ -42,6 +42,9 @@ namespace PetShopCompulsory
                         Console.ReadLine();
                         break;
                     case 3:
+                        Console.WriteLine("Updating pet");
+                        UpdatePet();
+                        Console.ReadLine();
                         break;
                     case 4:
                         break;
@@ -80,19 +83,12 @@ namespace PetShopCompulsory
 
         void AddPet()
         {
-            string name = QuestionInput("Name: ");
-            Types type = ToType(QuestionInput("Type: "));
-            DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM_DD): "));
-            DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
-            string color = QuestionInput("Color: ");
-            string prevOwner = QuestionInput("PreviousOwner: ");
-            double price = ToNumberDouble(QuestionInput("Price: "));
-
-            Pet newPet = _petservice.CreatePet(name, type, birthdate, solddate, color, prevOwner, price);
+            Pet newPet = CreateNewPet();
             if (newPet != null)
             {
                 Console.Write("New pet created... ");
             }
+
             Pet savedPet = _petservice.SaveNewPet(newPet);
             if (savedPet != null)
             {
@@ -102,7 +98,13 @@ namespace PetShopCompulsory
 
         void UpdatePet()
         {
+            Console.WriteLine("Please select the pet(ID) to update:");
+            ListPets(_petservice.GetPets());
+            int id = ToNumberInt(QuestionInput("ID: "));
+            Pet petUpdate = CreateNewPet();
+            petUpdate.ID = id;
 
+            Pet result = _petservice.UpdatePet(petUpdate);
         }
 
         #region Tools
@@ -170,6 +172,24 @@ namespace PetShopCompulsory
             if (input != null)
             {
                 return char.ToUpper(input[0]) + input.Substring(1);
+            }
+            return null;
+        }
+
+        Pet CreateNewPet()
+        {
+            string name = QuestionInput("Name: ");
+            Types type = ToType(QuestionInput("Type: "));
+            DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM_DD): "));
+            DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
+            string color = QuestionInput("Color: ");
+            string prevOwner = QuestionInput("PreviousOwner: ");
+            double price = ToNumberDouble(QuestionInput("Price: "));
+
+            Pet newPet = _petservice.CreatePet(name, type, birthdate, solddate, color, prevOwner, price);
+            if (newPet != null)
+            {
+                return newPet;
             }
             return null;
         }

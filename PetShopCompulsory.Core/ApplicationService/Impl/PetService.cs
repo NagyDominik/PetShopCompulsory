@@ -58,7 +58,7 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public Pet UpdatePet(Pet petUpdate)
         {
-            throw new NotImplementedException();
+            return _petRepository.UpdatePet(petUpdate);
         }
     }
 }

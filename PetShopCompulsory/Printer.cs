@@ -388,7 +388,7 @@ namespace PetShopCompulsory
         {
             string name = QuestionInput("Name: ");
             Types type = ToType(QuestionInput("Type: "));
-            DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM_DD): "));
+            DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM-DD): "));
             DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
             string color = QuestionInput("Color: ");
             int ownerID = -1;

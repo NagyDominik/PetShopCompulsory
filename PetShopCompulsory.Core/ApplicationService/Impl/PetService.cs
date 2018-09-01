@@ -10,13 +10,15 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
     public class PetService : IPetService
     {
         readonly IPetRepository _petRepository;
+        readonly IOwnerRepository _ownerRepository;
 
-        public PetService(IPetRepository petRepository)
+        public PetService(IPetRepository petRepository, IOwnerRepository ownerRepository)
         {
             _petRepository = petRepository;
+            _ownerRepository = ownerRepository;
         }
 
-        public Pet CreatePet(string name, Types type, DateTime birthdate, DateTime solddate, string color, string previousOwner, double price)
+        public Pet CreatePet(string name, Types type, DateTime birthdate, DateTime solddate, string color, Owner previousOwner, double price)
         {
             Pet newPet = new Pet
             {
@@ -31,13 +33,31 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
             return newPet;
         }
 
+        public Owner CreateOwner(string firstname, string lastname, string address, string phonenum, string email)
+        {
+            Owner newOwner = new Owner()
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                Address = address,
+                PhoneNumber = phonenum,
+                Email = email
+            };
+            return newOwner;
+        }
+
         public Pet SaveNewPet(Pet newPet)
         {
             return _petRepository.SavePet(newPet);
         }
 
-        #region Getter methds
+        public Owner SaveNewOwner(Owner newOwner)
+        {
+            return _ownerRepository.SaveOwner(newOwner);
+        }
 
+        #region Getter methds
+        #region Pet
         public List<Pet> GetAllPets()
         {
             return _petRepository.ReadPets().ToList();
@@ -64,14 +84,38 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
         }
         #endregion
 
+        #region Owner
+        public List<Owner> GetAllOwners()
+        {
+            return _ownerRepository.ReadOwners().ToList();
+        }
+
+        public Owner GetOwnerByID(int id)
+        {
+            return _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == id);
+        }
+        #endregion
+
+        #endregion
+
         public Pet UpdatePet(Pet petUpdate)
         {
             return _petRepository.UpdatePet(petUpdate);
         }
 
+        public Owner UpdateOwner(Owner ownerUpdate)
+        {
+            return _ownerRepository.UpdateOwner(ownerUpdate);
+        }
+
         public Pet RemovePet(int id)
         {
             return _petRepository.DeletePet(id);
+        }
+
+        public Owner RemoveOwner(int id)
+        {
+            return _ownerRepository.DeleteOwner(id);
         }
     }
 }

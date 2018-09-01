@@ -12,13 +12,14 @@ namespace PetShopCompulsory.Core.Entity
         public DateTime Birthdate { get; set; }
         public DateTime SoldDate { get; set; }
         public string Color { get; set; }
-        public string PreviousOwner { get; set; }
+        public Owner PreviousOwner { get; set; }
         public double Price { get; set; }
 
         public override string ToString()
         {
             return "ID: " + ID + "  Name: " + Name +"  Type: " + Type + "  Birthdate: " + Birthdate + "\n" +
-                   "SoldDate: " + SoldDate + "  Color: " + Color + "  PreviousOwner: " + PreviousOwner + "  Price: " + Price;
+                   "SoldDate: " + SoldDate + "  Color: " + Color + "  PreviousOwner: " + PreviousOwner.ID +
+                   ". " + PreviousOwner.FirstName + " " + PreviousOwner.LastName + "  Price: " + Price;
         }
     }
 }

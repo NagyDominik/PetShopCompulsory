@@ -10,6 +10,26 @@ namespace PetShopCompulsory
     class Printer : IPrinter
     {
         readonly IPetService _petservice;
+        readonly string[] defaultmenu =
+        {
+                "Add pet",
+                "List pets",
+                "Update pet",
+                "Remove pet",
+                "List pets by type",
+                "Pets by price",
+                "5 cheapest pets\n",
+                "Owner options\n",
+                "Exit\n"
+        };
+        readonly string[] ownermenu =
+        {
+                "Add owner",
+                "List owner",
+                "Update owner",
+                "Remove owner\n",
+                "Exit"
+        };
 
         public Printer(IPetService petService)
         {
@@ -18,19 +38,8 @@ namespace PetShopCompulsory
 
         public void StartUp()
         {
-            string[] defaultmenu = {
-                "Add pet",
-                "List pets",
-                "Update pet",
-                "Remove pet\n",
-                "List pets by type",
-                "Pets by price",
-                "5 cheapest pets\n",
-                "Exit\n"
-            };
-
             int selection = 0;
-            while (selection != 8)
+            while (selection != 9)
             {
                 Console.Clear();
                 Console.WriteLine("Select an option");
@@ -44,7 +53,7 @@ namespace PetShopCompulsory
                         break;
                     case 2:
                         Console.WriteLine("Pets:");
-                        ListPets(_petservice.GetAllPets());
+                        ListElements(_petservice.GetAllPets());
                         Console.ReadLine();
                         break;
                     case 3:
@@ -72,11 +81,14 @@ namespace PetShopCompulsory
                         PetsTopCheap();
                         Console.ReadLine();
                         break;
+                    case 8:
+                        Console.Clear();
+                        OwnerMenu();
+                        break;
                     default:
                         break;
                 }
             }
-
         }
 
         int WriteMenu(string[] elements)
@@ -99,11 +111,105 @@ namespace PetShopCompulsory
             return selection;
         }
 
+        #region Owner
+        void OwnerMenu()
+        {
+            int selection = 0;
+            while (selection != 5)
+            {
+                Console.Clear();
+                Console.WriteLine("Select an option");
+                selection = WriteMenu(ownermenu);
+                switch (selection)
+                {
+                    case 1:
+                        Console.WriteLine("Adding owner");
+                        AddOwner();
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        Console.WriteLine("Owners:");
+                        ListElements(_petservice.GetAllOwners());
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        Console.WriteLine("Updating owner");
+                        UpdateOwner();
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.WriteLine("Removing owner");
+                        RemoveOwner();
+                        Console.ReadLine();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        void AddOwner()
+        {
+            Owner newOwner = CreateNewOwner();
+            if (newOwner != null)
+                Console.Write("New owner created... ");
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
+
+            Owner savedOwner = _petservice.SaveNewOwner(newOwner);
+            if (savedOwner != null)
+                Console.Write("New owner saved!");
+        }
+
+        void UpdateOwner()
+        {
+            int id = SelectOwner();
+            if (id == 0)
+                return;
+            Owner ownerUpdate = CreateNewOwner();
+            ownerUpdate.ID = id;
+            if (ownerUpdate != null)
+                Console.Write("Updating...");
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
+            Owner result = _petservice.UpdateOwner(ownerUpdate);
+            if (result != null)
+                Console.Write("Updated!");
+        }
+
+        void RemoveOwner()
+        {
+            int id = SelectOwner();
+            if (id == 0)
+                return;
+            Owner result = _petservice.RemoveOwner(id);
+            if (result != null)
+                Console.Write("Deleted!");
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
+        }
+        #endregion
+
+        #region Pet
         void AddPet()
         {
             Pet newPet = CreateNewPet();
             if (newPet != null)
                 Console.Write("New pet created... ");
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
 
             Pet savedPet = _petservice.SaveNewPet(newPet);
             if (savedPet != null)
@@ -113,11 +219,17 @@ namespace PetShopCompulsory
         void UpdatePet()
         {
             int id = SelectPet();
+            if (id == 0)
+                return;
             Pet petUpdate = CreateNewPet();
             petUpdate.ID = id;
             if (petUpdate != null)
                 Console.Write("Updating... ");
-
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
             Pet result = _petservice.UpdatePet(petUpdate);
             if (result != null)
                 Console.Write("Updated!");
@@ -126,9 +238,16 @@ namespace PetShopCompulsory
         void RemovePet()
         {
             int id = SelectPet();
+            if (id == 0)
+                return;
             Pet result = _petservice.RemovePet(id);
             if (result != null)
                 Console.Write("Deleted!");
+            else
+            {
+                Console.WriteLine("Something went wrong. Please try again!");
+                return;
+            }
         }
 
         void PetsByType()
@@ -138,7 +257,7 @@ namespace PetShopCompulsory
             int selection = WriteMenu(typesasstring);
             Types selectionType = ToType(typesasstring[selection - 1]);
             List<Pet> pets = _petservice.GetPetsByType(selectionType);
-            ListPets(pets);
+            ListElements(pets);
         }
 
         void PetsByPrice()
@@ -149,24 +268,49 @@ namespace PetShopCompulsory
                 order = QuestionInput("Select the order of listing (Asc/Desc): ");
             }
             List<Pet> pets = _petservice.GetPetsPriceOrdered(order);
-            ListPets(pets);
+            ListElements(pets);
         }
 
         void PetsTopCheap()
         {
             List<Pet> pets = _petservice.GetPetsTopCheap(5);
-            ListPets(pets);
+            ListElements(pets);
         }
+        #endregion
 
         #region Tools
 
         int SelectPet()
         {
-            Console.WriteLine("Please select the pet(ID):");
             List<Pet> petList = _petservice.GetAllPets();
-            ListPets(petList);
+            if (petList.Count == 0)
+            {
+                Console.WriteLine("There are no pets!");
+                return 0;
+            }
+            Console.WriteLine("Please select the pet(ID):");
+            ListElements(petList);
             int id = ToNumberInt(QuestionInput("ID: "));
-            while (id > _petservice.GetAllPets().Count)
+            while (!petList.Exists(p => p.ID == id))
+            {
+                Console.WriteLine("Wrong ID!");
+                id = ToNumberInt(QuestionInput("New: "));
+            }
+            return id;
+        }
+
+        int SelectOwner()
+        {
+            List<Owner> ownerList = _petservice.GetAllOwners();
+            if (ownerList.Count == 0)
+            {
+                Console.WriteLine("There are no owners!");
+                return 0;
+            }
+            Console.WriteLine("Please select the owner(ID):");
+            ListElements(ownerList);
+            int id = ToNumberInt(QuestionInput("ID: "));
+            while (!ownerList.Exists(o =>o.ID == id))
             {
                 Console.WriteLine("Wrong ID!");
                 id = ToNumberInt(QuestionInput("New: "));
@@ -180,11 +324,11 @@ namespace PetShopCompulsory
             return FirstLetterToCapital(Console.ReadLine());
         }
 
-        void ListPets(List<Pet> pets)
+        void ListElements<T>(List<T> list)
         {
-            foreach (var pet in pets)
+            foreach (var e in list)
             {
-                Console.WriteLine(pet.ToString());
+                Console.WriteLine(e.ToString());
                 Console.WriteLine();
             }
         }
@@ -217,7 +361,7 @@ namespace PetShopCompulsory
             {
                 Console.WriteLine("The type does not exist");
                 Console.Write("New: ");
-                a = ToType(Console.ReadLine());
+                a = ToType(FirstLetterToCapital(Console.ReadLine()));
             }
             return a;
         }
@@ -247,12 +391,32 @@ namespace PetShopCompulsory
             DateTime birthdate = ToDateTime(QuestionInput("Birthdate (YYYY-MM_DD): "));
             DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
             string color = QuestionInput("Color: ");
-            string prevOwner = QuestionInput("PreviousOwner: ");
+            int ownerID = -1;
+            while (!int.TryParse(QuestionInput("PreviousOwnerID: "), out ownerID) || !_petservice.GetAllOwners().Exists(o => o.ID == ownerID))
+            {
+                Console.WriteLine("Incorrect ID!");
+            }
+            Owner prevOwner = _petservice.GetOwnerByID(ownerID);
             double price = ToNumberDouble(QuestionInput("Price: "));
 
             Pet newPet = _petservice.CreatePet(name, type, birthdate, solddate, color, prevOwner, price);
             if (newPet != null)
                 return newPet;
+            return null;
+        }
+
+        Owner CreateNewOwner()
+        {
+            string fname = QuestionInput("Firstname: ");
+            string lname = QuestionInput("Lastname: ");
+            string address = QuestionInput("Address: ");
+            string pnum = QuestionInput("Phone number: ");
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
+
+            Owner newOwner = _petservice.CreateOwner(fname, lname, address, pnum, email);
+            if (newOwner != null)
+                return newOwner;
             return null;
         }
         #endregion

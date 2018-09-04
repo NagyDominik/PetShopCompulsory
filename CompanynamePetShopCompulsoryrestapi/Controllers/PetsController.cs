@@ -35,9 +35,9 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
 
         // POST api/pets
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Pet> Post([FromBody] Pet pet)
         {
-            Console.WriteLine("Post: {0}", value);
+            return _petservice.SaveNewPet(pet);
         }
 
         // PUT api/pets/5

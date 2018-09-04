@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PetShopCompulsory.Core;
+using PetShopCompulsory.Core.ApplicationService.Impl;
+using PetShopCompulsory.Core.DomainService;
+using PetShopCompulsory.Infrastructure.Static.Data;
 
 namespace CompanynamePetShopCompulsoryrestapi
 {
@@ -25,6 +29,10 @@ namespace CompanynamePetShopCompulsoryrestapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            FakeDB.InitData();
+
+            services.AddScoped<IPetRepository, IPetRepository>();
+            services.AddScoped<IPetService, PetService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -38,7 +46,7 @@ namespace CompanynamePetShopCompulsoryrestapi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

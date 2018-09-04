@@ -11,8 +11,22 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
         public static IEnumerable<Pet> Pets;
         public static int PetID = 1;
 
+        public static IEnumerable<Owner> Owners;
+        public static int OwnerID = 1;
+
         public static void InitData()
         {
+            Owner owner1 = new Owner()
+            {
+                ID = OwnerID++,
+                FirstName = "Bob",
+                LastName = "Ross",
+                Address = "Testaddress",
+                PhoneNumber = "+12345678",
+                Email = "bobross@fakemail.com"
+            };
+            Owners = new List<Owner> { owner1 };
+
             Pet pet1 = new Pet() {
                 ID = PetID++,
                 Name = "George",
@@ -20,7 +34,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2011, 11, 11),
                 SoldDate = new DateTime(2013, 12, 23),
                 Color = "Brown",
-                PreviousOwner = "George",
+                PreviousOwner = Owners.ToList()[0],
                 Price = 49.99,
             };
             Pet pet2 = new Pet() {
@@ -30,7 +44,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2014, 04, 04),
                 SoldDate = new DateTime(2014, 06, 06),
                 Color = "Gray",
-                PreviousOwner = "Henry",
+                PreviousOwner = Owners.ToList()[0],
                 Price = 29.99
             };
             Pet pet3 = new Pet() {
@@ -40,10 +54,9 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2011, 12, 12),
                 SoldDate = new DateTime(2012, 12, 23),
                 Color = "Red",
-                PreviousOwner = "Freddy",
+                PreviousOwner = Owners.ToList()[0],
                 Price = 19.99
             };
-
             Pets = new List<Pet> {pet1, pet2, pet3};
         }
 

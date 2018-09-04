@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PetShopCompulsory.Infrastructure.Static.Data
+namespace PetShopCompulsory.Infrastructure.Static.Data.Repositories
 {
     public class PetRepository : IPetRepository
     {
@@ -25,14 +25,19 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
         public Pet UpdatePet(Pet petUpdate)
         {
             List<Pet> pets = FakeDB.Pets.ToList();
-            Pet pet = pets.FirstOrDefault(p => p.ID == petUpdate.ID);
-            pet = petUpdate;
-
+            int index = pets.FindIndex(p => p.ID == petUpdate.ID);
+            pets[index] = petUpdate;
+            FakeDB.Pets = pets;
+            return petUpdate;
         }
 
-        public Pet DeletePet(Pet petDelete)
+        public Pet DeletePet(int id)
         {
-            throw new NotImplementedException();
+            List<Pet> pets = FakeDB.Pets.ToList();
+            Pet petDelete = pets.FirstOrDefault(p => p.ID == id);
+            pets.Remove(petDelete);
+            FakeDB.Pets = pets;
+            return petDelete;
         }
     }
 }

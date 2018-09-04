@@ -5,18 +5,18 @@ using System.Text;
 
 namespace PetShopCompulsory.Core.DomainService
 {
-    public interface IPetRepository
+    public interface IOwnerRepository
     {
         //Read
-        IEnumerable<Pet> ReadPets();
+        IEnumerable<Owner> ReadOwners();
 
         //Save
-        Pet SavePet(Pet petSave);
+        Owner SaveOwner(Owner ownerSave);
 
         //Update
-        Pet UpdatePet(Pet petUpdate);
+        Owner UpdateOwner(Owner ownerUpdate);
 
         //Delete
-        Pet DeletePet(int id);
+        Owner DeleteOwner(int id);
     }
 }

@@ -3,34 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PetShopCompulsory.Core;
+using PetShopCompulsory.Core.Entity;
 
 namespace CompanynamePetShopCompulsoryrestapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class PetsController : ControllerBase
     {
-        // GET api/values
+        private readonly IPetService _petservice;
+
+        public PetsController(IPetService petService)
+        {
+            _petservice = petService;
+        }
+
+        // GET api/pets
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Pet>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _petservice.GetAllPets();
         }
 
-        // GET api/values/5
+        // GET api/pets/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Pet> Get(int id)
         {
-            return "value";
+            return _petservice.GetAllPets().FirstOrDefault(p => p.ID == id);
         }
 
-        // POST api/values
+        // POST api/pets
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            Console.WriteLine("Post");
         }
 
-        // PUT api/values/5
+        // PUT api/pets/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

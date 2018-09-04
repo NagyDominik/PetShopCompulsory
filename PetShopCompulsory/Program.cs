@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetShopCompulsory.Core;
+using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Infrastructure.Static.Data;
+using PetShopCompulsory.Infrastructure.Static.Data.Repositories;
 using System;
 
 namespace PetShopCompulsory
@@ -15,6 +17,7 @@ namespace PetShopCompulsory
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IPetRepository, PetRepository>();
+            serviceCollection.AddScoped<IOwnerRepository, OwnerRepository>();
             serviceCollection.AddScoped<IPetService, PetService>();
             serviceCollection.AddScoped<IPrinter, Printer>();
 

@@ -34,18 +34,18 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // POST api/pets
-        [HttpPost]
-        public ActionResult<Pet> Post([FromBody] Pet pet)
+        [HttpPost("{id}")]
+        public ActionResult<Pet> Post(int id, [FromBody] Pet pet)
         {
+            pet.ID = id;
             return _petservice.UpdatePet(pet);
         }
 
         // PUT api/pets/5
-        [HttpPut("{id}")]
-        public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
+        [HttpPut]
+        public ActionResult<Pet> Put([FromBody] Pet pet)
         {
-            pet.ID = id;
-            return _petservice.UpdatePet(pet);
+            return _petservice.SaveNewPet(pet);
         }
 
         // DELETE api/values/5

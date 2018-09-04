@@ -37,21 +37,22 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet pet)
         {
-            return _petservice.SaveNewPet(pet);
+            return _petservice.UpdatePet(pet);
         }
 
         // PUT api/pets/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
-            Console.WriteLine("Pet {0} updated");
+            pet.ID = id;
+            return _petservice.UpdatePet(pet);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Pet> Delete(int id)
         {
-            _petservice.RemovePet(id);
+            return _petservice.RemovePet(id);
         }
     }
 }

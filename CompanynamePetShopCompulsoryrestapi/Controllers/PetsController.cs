@@ -37,19 +37,21 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            Console.WriteLine("Post");
+            Console.WriteLine("Post: {0}", value);
         }
 
         // PUT api/pets/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            Console.WriteLine("Pet {0} updated");
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _petservice.RemovePet(id);
         }
     }
 }

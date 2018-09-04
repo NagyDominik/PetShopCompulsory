@@ -14,6 +14,7 @@ using PetShopCompulsory.Core;
 using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Infrastructure.Static.Data;
+using PetShopCompulsory.Infrastructure.Static.Data.Repositories;
 
 namespace CompanynamePetShopCompulsoryrestapi
 {
@@ -31,7 +32,8 @@ namespace CompanynamePetShopCompulsoryrestapi
         {
             FakeDB.InitData();
 
-            services.AddScoped<IPetRepository, IPetRepository>();
+            services.AddScoped<IPetRepository, PetRepository>();
+            services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IPetService, PetService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

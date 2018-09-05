@@ -30,29 +30,41 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            return _petservice.GetAllPets().FirstOrDefault(p => p.ID == id);
+            return _petservice.GetPetByID(id);
         }
 
         // POST api/pets
-        [HttpPost("{id}")]
-        public ActionResult<Pet> Post(int id, [FromBody] Pet pet)
+        [HttpPost]
+        public ActionResult<Pet> Post([FromBody] Pet pet)
         {
-            pet.ID = id;
-            return _petservice.UpdatePet(pet);
+            Pet result = _petservice.SaveNewPet(pet);
+            if (result != null)
+                return result;
+            else
+                return BadRequest("Something went wrong!");
         }
 
         // PUT api/pets/5
-        [HttpPut]
-        public ActionResult<Pet> Put([FromBody] Pet pet)
+        [HttpPut("{id}")]
+        public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
-            return _petservice.SaveNewPet(pet);
+            pet.ID = id;
+            Pet result = _petservice.UpdatePet(pet);
+            if (result == null)
+                return result;
+            else
+                return BadRequest("Something went wrong!");
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public ActionResult<Pet> Delete(int id)
         {
-            return _petservice.RemovePet(id);
+            Pet result = _petservice.RemovePet(id);
+            if (result == null)
+                return result;
+            else
+                return BadRequest("Something went wrong!");
         }
     }
 }

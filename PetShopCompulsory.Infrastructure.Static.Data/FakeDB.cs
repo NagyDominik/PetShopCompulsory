@@ -34,7 +34,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2011, 11, 11),
                 SoldDate = new DateTime(2013, 12, 23),
                 Color = "Brown",
-                PreviousOwner = Owners.ToList()[0],
+                PreviousOwner = new Owner() { ID = 1 },
                 Price = 49.99,
             };
             Pet pet2 = new Pet() {
@@ -44,7 +44,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2014, 04, 04),
                 SoldDate = new DateTime(2014, 06, 06),
                 Color = "Gray",
-                PreviousOwner = Owners.ToList()[0],
+                PreviousOwner = new Owner() { ID = 1 },
                 Price = 29.99
             };
             Pet pet3 = new Pet() {
@@ -54,7 +54,7 @@ namespace PetShopCompulsory.Infrastructure.Static.Data
                 Birthdate = new DateTime(2011, 12, 12),
                 SoldDate = new DateTime(2012, 12, 23),
                 Color = "Red",
-                PreviousOwner = Owners.ToList()[0],
+                PreviousOwner = new Owner() { ID = 1 },
                 Price = 19.99
             };
             Pets = new List<Pet> {pet1, pet2, pet3};

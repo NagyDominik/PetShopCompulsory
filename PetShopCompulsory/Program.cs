@@ -19,11 +19,13 @@ namespace PetShopCompulsory
             serviceCollection.AddScoped<IPetRepository, PetRepository>();
             serviceCollection.AddScoped<IOwnerRepository, OwnerRepository>();
             serviceCollection.AddScoped<IPetService, PetService>();
+            serviceCollection.AddScoped<IOwnerService, OwnerService>();
             serviceCollection.AddScoped<IPrinter, Printer>();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var petservice = serviceProvider.GetRequiredService<IPetService>();
-            var printer = new Printer(petservice);
+            var ownerservice = serviceProvider.GetRequiredService<IOwnerService>();
+            var printer = new Printer(petservice, ownerservice);
             printer.StartUp();
         }
     }

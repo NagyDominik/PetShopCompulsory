@@ -33,34 +33,23 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
             return newPet;
         }
 
-        public Owner CreateOwner(string firstname, string lastname, string address, string phonenum, string email)
-        {
-            Owner newOwner = new Owner()
-            {
-                FirstName = firstname,
-                LastName = lastname,
-                Address = address,
-                PhoneNumber = phonenum,
-                Email = email
-            };
-            return newOwner;
-        }
-
         public Pet SaveNewPet(Pet newPet)
         {
             return _petRepository.SavePet(newPet);
         }
 
-        public Owner SaveNewOwner(Owner newOwner)
-        {
-            return _ownerRepository.SaveOwner(newOwner);
-        }
-
-        #region Getter methds
-        #region Pet
         public List<Pet> GetAllPets()
         {
-            return _petRepository.ReadPets().ToList();
+            List<Pet> pets = _petRepository.ReadPets().ToList();
+            foreach (Pet p in pets) {
+                p.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == p.PreviousOwner.ID);
+            }
+            return pets;
+        }
+
+        public Pet GetPetByID(int id)
+        {
+            return _petRepository.ReadPets().FirstOrDefault(o => o.ID == id);
         }
 
         public List<Pet> GetPetsByType(Types type)
@@ -82,40 +71,15 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
         {
             return _petRepository.ReadPets().OrderBy(p => p.Price).Take(num).ToList();
         }
-        #endregion
-
-        #region Owner
-        public List<Owner> GetAllOwners()
-        {
-            return _ownerRepository.ReadOwners().ToList();
-        }
-
-        public Owner GetOwnerByID(int id)
-        {
-            return _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == id);
-        }
-        #endregion
-
-        #endregion
 
         public Pet UpdatePet(Pet petUpdate)
         {
             return _petRepository.UpdatePet(petUpdate);
         }
 
-        public Owner UpdateOwner(Owner ownerUpdate)
-        {
-            return _ownerRepository.UpdateOwner(ownerUpdate);
-        }
-
         public Pet RemovePet(int id)
         {
             return _petRepository.DeletePet(id);
-        }
-
-        public Owner RemoveOwner(int id)
-        {
-            return _ownerRepository.DeleteOwner(id);
         }
     }
 }

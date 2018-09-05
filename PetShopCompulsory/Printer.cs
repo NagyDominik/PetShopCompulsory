@@ -1,4 +1,5 @@
 ﻿using PetShopCompulsory.Core;
+using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace PetShopCompulsory
     class Printer : IPrinter
     {
         readonly IPetService _petservice;
+        readonly IOwnerService _ownerservice;
         readonly string[] defaultmenu =
         {
                 "Add pet",
@@ -31,9 +33,10 @@ namespace PetShopCompulsory
                 "Exit"
         };
 
-        public Printer(IPetService petService)
+        public Printer(IPetService petService, IOwnerService ownerService)
         {
             _petservice = petService;
+            _ownerservice = ownerService;
         }
 
         public void StartUp()
@@ -129,7 +132,7 @@ namespace PetShopCompulsory
                         break;
                     case 2:
                         Console.WriteLine("Owners:");
-                        ListElements(_petservice.GetAllOwners());
+                        ListElements(_ownerservice.GetAllOwners());
                         Console.ReadLine();
                         break;
                     case 3:
@@ -159,7 +162,7 @@ namespace PetShopCompulsory
                 return;
             }
 
-            Owner savedOwner = _petservice.SaveNewOwner(newOwner);
+            Owner savedOwner = _ownerservice.SaveNewOwner(newOwner);
             if (savedOwner != null)
                 Console.Write("New owner saved!");
         }
@@ -178,7 +181,7 @@ namespace PetShopCompulsory
                 Console.WriteLine("Something went wrong. Please try again!");
                 return;
             }
-            Owner result = _petservice.UpdateOwner(ownerUpdate);
+            Owner result = _ownerservice.UpdateOwner(ownerUpdate);
             if (result != null)
                 Console.Write("Updated!");
         }
@@ -188,7 +191,7 @@ namespace PetShopCompulsory
             int id = SelectOwner();
             if (id == 0)
                 return;
-            Owner result = _petservice.RemoveOwner(id);
+            Owner result = _ownerservice.RemoveOwner(id);
             if (result != null)
                 Console.Write("Deleted!");
             else
@@ -301,7 +304,7 @@ namespace PetShopCompulsory
 
         int SelectOwner()
         {
-            List<Owner> ownerList = _petservice.GetAllOwners();
+            List<Owner> ownerList = _ownerservice.GetAllOwners();
             if (ownerList.Count == 0)
             {
                 Console.WriteLine("There are no owners!");
@@ -392,11 +395,11 @@ namespace PetShopCompulsory
             DateTime solddate = ToDateTime(QuestionInput("Date of Selling (YYYY-MM-DD): "));
             string color = QuestionInput("Color: ");
             int ownerID = -1;
-            while (!int.TryParse(QuestionInput("PreviousOwnerID: "), out ownerID) || !_petservice.GetAllOwners().Exists(o => o.ID == ownerID))
+            while (!int.TryParse(QuestionInput("PreviousOwnerID: "), out ownerID) || !_ownerservice.GetAllOwners().Exists(o => o.ID == ownerID))
             {
                 Console.WriteLine("Incorrect ID!");
             }
-            Owner prevOwner = _petservice.GetOwnerByID(ownerID);
+            Owner prevOwner = _ownerservice.GetOwnerByID(ownerID);
             double price = ToNumberDouble(QuestionInput("Price: "));
 
             Pet newPet = _petservice.CreatePet(name, type, birthdate, solddate, color, prevOwner, price);
@@ -414,7 +417,7 @@ namespace PetShopCompulsory
             Console.Write("Email: ");
             string email = Console.ReadLine();
 
-            Owner newOwner = _petservice.CreateOwner(fname, lname, address, pnum, email);
+            Owner newOwner = _ownerservice.CreateOwner(fname, lname, address, pnum, email);
             if (newOwner != null)
                 return newOwner;
             return null;

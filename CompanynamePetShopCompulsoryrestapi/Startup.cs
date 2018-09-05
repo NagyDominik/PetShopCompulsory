@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PetShopCompulsory.Core;
+using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Infrastructure.Static.Data;
@@ -35,6 +36,8 @@ namespace CompanynamePetShopCompulsoryrestapi
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IPetService, PetService>();
+            services.AddScoped<IOwnerService, OwnerService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

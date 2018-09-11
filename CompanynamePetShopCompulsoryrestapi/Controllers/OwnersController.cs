@@ -40,8 +40,8 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         public ActionResult<Owner> Post([FromBody] Owner newowner)
         {
             Owner result = _ownerservice.SaveNewOwner(newowner); ;
-            if (result == null)
-                return result;
+            if (result != null)
+                return Ok("Owner with ID: " + newowner.ID + " has been added!");
             else
                 return BadRequest("Something went wrong!");
         }
@@ -52,8 +52,8 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         {
             updateowner.ID = id;
             Owner result = _ownerservice.UpdateOwner(updateowner);
-            if (result == null)
-                return result;
+            if (result != null)
+                return Ok("Owner with ID: " + id + " has been updated!");
             else
                 return BadRequest("Something went wrong!");
         }
@@ -63,8 +63,8 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         public ActionResult<Owner> Delete(int id)
         {
             Owner result = _ownerservice.RemoveOwner(id);
-            if (result == null)
-                return result;
+            if (result != null)
+                return Ok("Owner with ID: " + id + " has been deleted!");
             else
                 return BadRequest("Something went wrong!");
         }

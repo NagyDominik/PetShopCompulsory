@@ -44,6 +44,22 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
                 return BadRequest("Something went wrong!");
         }
 
+        // POST api/pets/multipost
+        [HttpPost("multipost")]
+        public ActionResult<Pet> PostMulti([FromBody] Pet[] pets)
+        {
+            bool passed = true;
+            foreach (Pet pet in pets) {
+                Pet result = _petservice.SaveNewPet(pet);
+                if (result == null)
+                    passed = false;
+            }
+            if (passed)
+                return Ok("Pets with has been added!");
+            else
+                return BadRequest("Something went wrong!");
+        }
+
         // PUT api/pets/5
         [HttpPut("{id}")]
         public ActionResult<Pet> Put(int id, [FromBody] Pet pet)

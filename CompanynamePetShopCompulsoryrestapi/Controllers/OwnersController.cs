@@ -46,6 +46,22 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
                 return BadRequest("Something went wrong!");
         }
 
+        // POST api/pets/multipost
+        [HttpPost("multipost")]
+        public ActionResult<Owner> PostMulti([FromBody] Owner[] owners)
+        {
+            bool passed = true;
+            foreach (Owner owner in owners) {
+                Owner result = _ownerservice.SaveNewOwner(owner);
+                if (result == null)
+                    passed = false;
+            }
+            if (passed)
+                return Ok("Owners with has been added!");
+            else
+                return BadRequest("Something went wrong!");
+        }
+
         // PUT: api/Owner/5
         [HttpPut("{id}")]
         public ActionResult<Owner> Put(int id, [FromBody] Owner updateowner)

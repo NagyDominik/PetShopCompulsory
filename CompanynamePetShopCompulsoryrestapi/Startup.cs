@@ -15,7 +15,7 @@ using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Infrastructure.Static.Data;
-using PetShopCompulsory.Infrastructure.Static.Data.Repositories;
+using PetShopCompulsory.Infrastructure.Static.Data.SQL_Repositories;
 
 namespace CompanynamePetShopCompulsoryrestapi
 {

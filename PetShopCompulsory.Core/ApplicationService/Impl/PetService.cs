@@ -41,15 +41,17 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
         public List<Pet> GetAllPets()
         {
             List<Pet> pets = _petRepository.ReadPets().ToList();
-            foreach (Pet p in pets) {
-                p.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == p.PreviousOwner.ID);
-            }
+            //foreach (Pet p in pets) {
+            //    p.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == p.PreviousOwner.ID);
+            //}
             return pets;
         }
 
         public Pet GetPetByID(int id)
         {
-            return _petRepository.ReadPets().FirstOrDefault(o => o.ID == id);
+            Pet pet = _petRepository.ReadPets().FirstOrDefault(o => o.ID == id);
+            pet.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == pet.PreviousOwner.ID);
+            return pet;
         }
 
         public List<Pet> GetPetsByType(Types type)

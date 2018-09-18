@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PetShopCompulsory.Infrastructure.Static.Data
+namespace PetShopCompulsory.Infrastructure.Data
 {
     public class PetShopCompulsoryContext : DbContext
     {

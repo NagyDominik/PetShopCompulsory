@@ -1,11 +1,12 @@
-﻿using PetShopCompulsory.Core.DomainService;
+﻿using Microsoft.EntityFrameworkCore;
+using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PetShopCompulsory.Infrastructure.Static.Data.SQL_Repositories
+namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
 {
     public class PetRepository : IPetRepository
     {
@@ -31,6 +32,8 @@ namespace PetShopCompulsory.Infrastructure.Static.Data.SQL_Repositories
 
         public Pet SavePet(Pet petSave)
         {
+            //_ctx.Entry(petSave.PreviousOwner).State = EntityState.Unchanged;
+            petSave.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == petSave.PreviousOwner.ID);
             _ctx.Pets.Add(petSave);
             _ctx.SaveChanges();
             return petSave;

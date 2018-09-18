@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using PetShopCompulsory.Core;
 using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
-using PetShopCompulsory.Infrastructure.Static.Data;
-using PetShopCompulsory.Infrastructure.Static.Data.SQL_Repositories;
+using PetShopCompulsory.Infrastructure.Data;
+using PetShopCompulsory.Infrastructure.Data.SQL_Repositories;
 
 namespace CompanynamePetShopCompulsoryrestapi
 {
@@ -33,8 +26,6 @@ namespace CompanynamePetShopCompulsoryrestapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            FakeDB.InitData();
-
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IPetService, PetService>();

@@ -12,6 +12,14 @@ namespace PetShopCompulsory.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pet>()
+                .HasOne(p => p.PreviousOwner)
+                .WithMany(o => o.Pets)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
+
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Owner> Owners { get; set; }
     }

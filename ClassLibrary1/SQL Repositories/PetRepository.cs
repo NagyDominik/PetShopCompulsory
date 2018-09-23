@@ -42,6 +42,8 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
         public Pet UpdatePet(Pet petUpdate)
         {
             _ctx.Pets.Update(petUpdate);
+            petUpdate.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == petUpdate.PreviousOwner.ID);
+            _ctx.Pets.Add(petUpdate);
             _ctx.SaveChanges();
             return petUpdate;
         }

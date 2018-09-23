@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using PetShop.Infrastructure.Data;
 using PetShopCompulsory.Core;
 using PetShopCompulsory.Core.ApplicationService;
 using PetShopCompulsory.Core.ApplicationService.Impl;
@@ -30,7 +31,9 @@ namespace CompanynamePetShopCompulsoryrestapi
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerService, OwnerService>();
-            services.AddDbContext<PetShopCompulsoryContext>(opt => opt.UseInMemoryDatabase("DBOne"));
+            //services.AddDbContext<PetShopCompulsoryContext>(opt => opt.UseInMemoryDatabase("DBOne"));
+
+            services.AddDbContext<PetShopCompulsoryContext>(opt => opt.UseSqlite("Data Source=petshop.db"));
 
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -45,12 +48,17 @@ namespace CompanynamePetShopCompulsoryrestapi
         {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+
+                using (IServiceScope scope = app.ApplicationServices.CreateScope()) {
+                    PetShopCompulsoryContext ctx = scope.ServiceProvider.GetService<PetShopCompulsoryContext>();
+                    DBInitializer.SeedDB(ctx);
+                }
             }
             else {
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

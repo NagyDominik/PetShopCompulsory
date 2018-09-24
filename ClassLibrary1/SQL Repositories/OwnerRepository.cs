@@ -1,4 +1,5 @@
-﻿using PetShopCompulsory.Core.DomainService;
+﻿using Microsoft.EntityFrameworkCore;
+using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
@@ -16,27 +17,37 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
             _ctx = ctx;
         }
 
-        public Owner DeleteOwner(int id)
+        public Owner Delete(int id)
         {
-            Owner owner = _ctx.Owners.FirstOrDefault(p => p.ID == id);
-            _ctx.Owners.Remove(owner);
+            Owner owner = _ctx.Owners.Remove(new Owner { ID = id }).Entity;
             _ctx.SaveChanges();
             return owner;
         }
 
-        public IEnumerable<Owner> ReadOwners()
+        public IEnumerable<Owner> ReadAll()
         {
             return _ctx.Owners;
         }
 
-        public Owner SaveOwner(Owner ownerSave)
+        public Owner ReadByIDWithPets(int id)
         {
-            _ctx.Owners.Add(ownerSave);
+            return _ctx.Owners.Include(o => o.Pets).FirstOrDefault(o => o.ID == id);
+        }
+
+        public Owner Save(Owner ownerSave)
+        {
+            var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
+            if (ownerSave.Pets != null) {
+                foreach (Pet pet in ownerSave.Pets) {
+                    _ctx.Attach(pet);
+                }
+            }
+            ownerSave = _ctx.Owners.Add(ownerSave).Entity;
             _ctx.SaveChanges();
             return ownerSave;
         }
 
-        public Owner UpdateOwner(Owner ownerUpdate)
+        public Owner Update(Owner ownerUpdate)
         {
             _ctx.Owners.Update(ownerUpdate);
             _ctx.SaveChanges();

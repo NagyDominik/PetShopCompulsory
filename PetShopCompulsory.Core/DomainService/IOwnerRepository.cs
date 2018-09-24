@@ -8,15 +8,16 @@ namespace PetShopCompulsory.Core.DomainService
     public interface IOwnerRepository
     {
         //Read
-        IEnumerable<Owner> ReadOwners();
+        IEnumerable<Owner> ReadAll();
+        Owner ReadByIDWithPets(int id);
 
         //Save
-        Owner SaveOwner(Owner ownerSave);
+        Owner Save(Owner ownerSave);
 
         //Update
-        Owner UpdateOwner(Owner ownerUpdate);
+        Owner Update(Owner ownerUpdate);
 
         //Delete
-        Owner DeleteOwner(int id);
+        Owner Delete(int id);
     }
 }

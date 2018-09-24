@@ -15,16 +15,16 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Dave",
                 LastName = "McColgan",
                 Address = "93 Mendota Road",
-                Email = "dave@dmail.com",
-                PhoneNumber = "5246727702"
+                Email = "dave@fakemail.com",
+                PhoneNumber = "52467277"
             };
 
             Owner prewOwner2 = new Owner {
                 FirstName = "Munroe",
                 LastName = "Wardlaw",
                 Address = "6 Commercial Lane",
-                Email = "mwardlaw7@hubpages.com",
-                PhoneNumber = "5359527708"
+                Email = "mwardlaw7@fakemail.com",
+                PhoneNumber = "53595277"
             };
 
             ctx.Owners.Add(prewOwner1);
@@ -41,21 +41,21 @@ namespace PetShop.Infrastructure.Data
             };
 
             Pet pet2 = new Pet {
-                Name = "Tom",
+                Name = "Terry",
                 Type = Types.Turtle,
                 Birthdate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Yellow",
+                Color = "Green",
                 PreviousOwner = prewOwner1,
                 Price = 299.9
             };
 
             Pet pet3 = new Pet {
-                Name = "Cat",
+                Name = "Clyde",
                 Type = Types.Cat,
                 Birthdate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
-                Color = "Blue",
+                Color = "Orange",
                 PreviousOwner = prewOwner2,
                 Price = 399.9
             };
@@ -71,7 +71,7 @@ namespace PetShop.Infrastructure.Data
             };
 
             Pet pet5 = new Pet {
-                Name = "Rat",
+                Name = "Nemo",
                 Type = Types.Fish,
                 Birthdate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
@@ -81,7 +81,7 @@ namespace PetShop.Infrastructure.Data
             };
 
             Pet pet6 = new Pet {
-                Name = "Goat",
+                Name = "Greg",
                 Type = Types.Goat,
                 Birthdate = DateTime.Now.AddYears(-5),
                 SoldDate = DateTime.Now,
@@ -96,7 +96,6 @@ namespace PetShop.Infrastructure.Data
             ctx.Pets.Add(pet4);
             ctx.Pets.Add(pet5);
             ctx.Pets.Add(pet6);
-
 
             ctx.SaveChanges();
         }

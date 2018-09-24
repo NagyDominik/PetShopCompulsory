@@ -35,53 +35,48 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public Pet SaveNewPet(Pet newPet)
         {
-            return _petRepository.SavePet(newPet);
+            return _petRepository.Save(newPet);
         }
 
         public List<Pet> GetAllPets()
         {
-            List<Pet> pets = _petRepository.ReadPets().ToList();
-            //foreach (Pet p in pets) {
-            //    p.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == p.PreviousOwner.ID);
-            //}
+            List<Pet> pets = _petRepository.ReadAll().ToList();
             return pets;
         }
 
         public Pet GetPetByID(int id)
         {
-            Pet pet = _petRepository.ReadPets().FirstOrDefault(o => o.ID == id);
-            pet.PreviousOwner = _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == pet.PreviousOwner.ID);
-            return pet;
+            return _petRepository.ReadByIDWithOwner(id);
         }
 
         public List<Pet> GetPetsByType(Types type)
         {
-            return _petRepository.ReadPets().Where(p => p.Type == type).ToList();
+            return _petRepository.ReadAll().Where(p => p.Type == type).ToList();
         }
 
         public List<Pet> GetPetsPriceOrdered(string order)
         {
             if (order == "Asc")
-                return _petRepository.ReadPets().OrderBy(pet => pet.Price).ToList();
+                return _petRepository.ReadAll().OrderBy(pet => pet.Price).ToList();
             else if (order == "Desc")
-                return _petRepository.ReadPets().OrderByDescending(pet => pet.Price).ToList();
+                return _petRepository.ReadAll().OrderByDescending(pet => pet.Price).ToList();
             else
                 return null;
         }
 
         public List<Pet> GetPetsTopCheap(int num)
         {
-            return _petRepository.ReadPets().OrderBy(p => p.Price).Take(num).ToList();
+            return _petRepository.ReadAll().OrderBy(p => p.Price).Take(num).ToList();
         }
 
         public Pet UpdatePet(Pet petUpdate)
         {
-            return _petRepository.UpdatePet(petUpdate);
+            return _petRepository.Update(petUpdate);
         }
 
         public Pet RemovePet(int id)
         {
-            return _petRepository.DeletePet(id);
+            return _petRepository.Delete(id);
         }
     }
 }

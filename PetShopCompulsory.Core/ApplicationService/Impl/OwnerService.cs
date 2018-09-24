@@ -30,27 +30,27 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public List<Owner> GetAllOwners()
         {
-            return _ownerRepository.ReadOwners().ToList();
+            return _ownerRepository.ReadAll().ToList();
         }
 
         public Owner GetOwnerByID(int id)
         {
-            return _ownerRepository.ReadOwners().FirstOrDefault(o => o.ID == id);
+            return _ownerRepository.ReadByIDWithPets(id);
         }
 
         public Owner SaveNewOwner(Owner newOwner)
         {
-            return _ownerRepository.SaveOwner(newOwner);
+            return _ownerRepository.Save(newOwner);
         }
 
         public Owner UpdateOwner(Owner ownerUpdate)
         {
-            return _ownerRepository.UpdateOwner(ownerUpdate);
+            return _ownerRepository.Update(ownerUpdate);
         }
 
         public Owner RemoveOwner(int id)
         {
-            return _ownerRepository.DeleteOwner(id);
+            return _ownerRepository.Delete(id);
         }
     }
 }

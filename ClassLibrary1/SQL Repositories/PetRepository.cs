@@ -17,29 +17,35 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
             _ctx = ctx;   
         }
 
-        public Pet DeletePet(int id)
+        public Pet Delete(int id)
         {
-            Pet pet = _ctx.Pets.FirstOrDefault(p => p.ID == id);
-            _ctx.Pets.Remove(pet);
+            Pet pet =_ctx.Pets.Remove(new Pet { ID = id }).Entity;
             _ctx.SaveChanges();
             return pet;
         }
 
-        public IEnumerable<Pet> ReadPets()
+        public IEnumerable<Pet> ReadAll()
         {
             return _ctx.Pets;
         }
 
-        public Pet SavePet(Pet petSave)
+        public Pet ReadByIDWithOwner(int id)
         {
-            //_ctx.Entry(petSave.PreviousOwner).State = EntityState.Unchanged;
-            petSave.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == petSave.PreviousOwner.ID);
-            _ctx.Pets.Add(petSave);
+            return _ctx.Pets.Include(p => p.PreviousOwner).FirstOrDefault(p => p.ID == id);
+        }
+
+        public Pet Save(Pet petSave)
+        {
+            var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
+            if (petSave.PreviousOwner != null) {
+                _ctx.Attach(petSave.PreviousOwner);
+            }
+            petSave =_ctx.Pets.Add(petSave).Entity;
             _ctx.SaveChanges();
             return petSave;
         }
 
-        public Pet UpdatePet(Pet petUpdate)
+        public Pet Update(Pet petUpdate)
         {
             _ctx.Pets.Update(petUpdate);
             petUpdate.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == petUpdate.PreviousOwner.ID);

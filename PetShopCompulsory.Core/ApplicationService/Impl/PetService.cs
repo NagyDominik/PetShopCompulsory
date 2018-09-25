@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using PetShopCompulsory.Core.DomainService;
@@ -67,6 +68,18 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
         public List<Pet> GetPetsTopCheap(int num)
         {
             return _petRepository.ReadAll().OrderBy(p => p.Price).Take(num).ToList();
+        }
+
+        public List<Pet> GetPetsFiltered(Filter filter)
+        {
+            if (filter.CurrentPage < 0 || filter.ItemsPrPage < 0) {
+                throw new InvalidDataException("CurrentPage and ItemsPage must be zero or more");
+            }
+            if ((filter.CurrentPage - 1 * filter.ItemsPrPage) >= _petRepository.Count()) {
+                throw new InvalidDataException("Index out of boundary, CurrentPage is to high");
+            }
+
+            return _petRepository.ReadFiltered(filter).ToList();
         }
 
         public Pet UpdatePet(Pet petUpdate)

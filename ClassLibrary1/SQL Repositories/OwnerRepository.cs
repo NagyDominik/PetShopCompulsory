@@ -17,16 +17,16 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
             _ctx = ctx;
         }
 
-        public Owner Delete(int id)
-        {
-            Owner owner = _ctx.Owners.Remove(new Owner { ID = id }).Entity;
-            _ctx.SaveChanges();
-            return owner;
-        }
-
         public IEnumerable<Owner> ReadAll()
         {
             return _ctx.Owners;
+        }
+
+        public IEnumerable<Owner> ReadFiltered(Filter filter)
+        {
+            return _ctx.Owners
+                .Skip((filter.CurrentPage - 1) * filter.ItemsPrPage)
+                .Take(filter.ItemsPrPage);
         }
 
         public Owner ReadByIDWithPets(int id)
@@ -53,9 +53,21 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
             //return ownerUpdate;
 
             _ctx.Attach(ownerUpdate).State = EntityState.Modified;
-            _ctx.Entry(ownerUpdate).Reference(p => p.Pets).IsModified = true;
+            _ctx.Entry(ownerUpdate).Collection(p => p.Pets).IsModified = true;
             _ctx.SaveChanges();
             return ownerUpdate;
+        }
+
+        public Owner Delete(int id)
+        {
+            Owner owner = _ctx.Owners.Remove(new Owner { ID = id }).Entity;
+            _ctx.SaveChanges();
+            return owner;
+        }
+
+        public int Count()
+        {
+            return _ctx.Owners.Count();
         }
     }
 }

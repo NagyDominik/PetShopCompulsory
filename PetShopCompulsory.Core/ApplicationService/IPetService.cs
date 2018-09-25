@@ -14,6 +14,7 @@ namespace PetShopCompulsory.Core
 
         //Read
         List<Pet> GetAllPets();
+        List<Pet> GetPetsFiltered(Filter filter);
         Pet GetPetByID(int id);
         List<Pet> GetPetsByType(Types type);
         List<Pet> GetPetsPriceOrdered(string order);

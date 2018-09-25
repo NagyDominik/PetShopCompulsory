@@ -9,6 +9,7 @@ namespace PetShopCompulsory.Core.DomainService
     {
         //Read
         IEnumerable<Pet> ReadAll();
+        IEnumerable<Pet> ReadFiltered(Filter filter);
         Pet ReadByIDWithOwner(int id);
 
         //Save
@@ -19,5 +20,8 @@ namespace PetShopCompulsory.Core.DomainService
 
         //Delete
         Pet Delete(int id);
+
+        //Count
+        int Count();
     }
 }

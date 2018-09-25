@@ -90,12 +90,23 @@ namespace PetShop.Infrastructure.Data
                 Price = 149.9
             };
 
+            Pet pet7 = new Pet {
+                Name = "Greg",
+                Type = Types.Goat,
+                Birthdate = DateTime.Now.AddYears(-5),
+                SoldDate = DateTime.Now,
+                Color = "Grey",
+                PreviousOwner = null,
+                Price = 149.9
+            };
+
             ctx.Pets.Add(pet1);
             ctx.Pets.Add(pet2);
             ctx.Pets.Add(pet3);
             ctx.Pets.Add(pet4);
             ctx.Pets.Add(pet5);
             ctx.Pets.Add(pet6);
+            ctx.Pets.Add(pet7);
 
             ctx.SaveChanges();
         }

@@ -36,7 +36,6 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
 
         public Owner Save(Owner ownerSave)
         {
-            var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
             if (ownerSave.Pets != null) {
                 foreach (Pet pet in ownerSave.Pets) {
                     _ctx.Attach(pet);
@@ -49,7 +48,12 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
 
         public Owner Update(Owner ownerUpdate)
         {
-            _ctx.Owners.Update(ownerUpdate);
+            //_ctx.Owners.Update(ownerUpdate);
+            //_ctx.SaveChanges();
+            //return ownerUpdate;
+
+            _ctx.Attach(ownerUpdate).State = EntityState.Modified;
+            _ctx.Entry(ownerUpdate).Reference(p => p.Pets).IsModified = true;
             _ctx.SaveChanges();
             return ownerUpdate;
         }

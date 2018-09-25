@@ -36,20 +36,34 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
 
         public Pet Save(Pet petSave)
         {
-            var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
-            if (petSave.PreviousOwner != null) {
-                _ctx.Attach(petSave.PreviousOwner);
-            }
-            petSave =_ctx.Pets.Add(petSave).Entity;
+            //var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
+            //if (petSave.PreviousOwner != null && changeTracker.FirstOrDefault(oe => oe.Entity.ID == petSave.PreviousOwner.ID) == null) {
+            //    _ctx.Attach(petSave.PreviousOwner);
+            //}
+            //petSave =_ctx.Pets.Add(petSave).Entity;
+            //_ctx.SaveChanges();
+            //return petSave;
+
+            _ctx.Attach(petSave).State = EntityState.Added;
             _ctx.SaveChanges();
             return petSave;
         }
 
         public Pet Update(Pet petUpdate)
         {
-            _ctx.Pets.Update(petUpdate);
-            petUpdate.PreviousOwner = _ctx.Owners.FirstOrDefault(o => o.ID == petUpdate.PreviousOwner.ID);
-            _ctx.Pets.Add(petUpdate);
+            //var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
+            //if (petUpdate.PreviousOwner != null && changeTracker.FirstOrDefault(oe => oe.Entity.ID == petUpdate.PreviousOwner.ID) == null) {
+            //    _ctx.Attach(petUpdate.PreviousOwner);
+            //}
+            //else {
+            //    _ctx.Entry(petUpdate).Reference(p => p.PreviousOwner).IsModified = true;
+            //}
+            //petUpdate = _ctx.Pets.Update(petUpdate).Entity;
+            //_ctx.SaveChanges();
+            //return petUpdate;
+
+            _ctx.Attach(petUpdate).State = EntityState.Modified;
+            _ctx.Entry(petUpdate).Reference(p => p.PreviousOwner).IsModified = true;
             _ctx.SaveChanges();
             return petUpdate;
         }

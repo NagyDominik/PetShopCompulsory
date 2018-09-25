@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShopCompulsory.Core.Enti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanynamePetShopCompulsoryrestapi", "CompanynamePetShopCompulsoryrestapi\CompanynamePetShopCompulsoryrestapi.csproj", "{84053C94-B508-40F3-B6BD-8D919459D55E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShopCompulsory.Infrastructure.Data", "PetShopCompulsory.Infrastructure.Data\PetShopCompulsory.Infrastructure.Data.csproj", "{A8AB3F31-2D0C-4658-9135-CC25A4C04099}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetShopCompulsory.Infrastructure.Data", "ClassLibrary1\PetShopCompulsory.Infrastructure.Data.csproj", "{A8AB3F31-2D0C-4658-9135-CC25A4C04099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

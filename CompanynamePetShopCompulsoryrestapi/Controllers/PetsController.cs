@@ -21,7 +21,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
 
         // GET api/pets
         [HttpGet]
-        public ActionResult<IEnumerable<Pet>> Get([FromQuery] Filter filter)
+        public ActionResult<IEnumerable<Pet>> Get()
         {
             return _petservice.GetAllPets();
         }

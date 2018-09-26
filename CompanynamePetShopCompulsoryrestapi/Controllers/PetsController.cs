@@ -49,7 +49,13 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet pet)
         {
-            Pet result = _petservice.SaveNewPet(pet);
+            Pet result = null;
+            try {
+                result = _petservice.SaveNewPet(pet);
+            }
+            catch (Exception e) {
+                BadRequest(e.Message);
+            }
             if (result != null)
                 return Ok("Pet with ID: " + result.ID + " has been added!");
             else
@@ -62,9 +68,14 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         {
             bool passed = true;
             foreach (Pet pet in pets) {
-                Pet result = _petservice.SaveNewPet(pet);
-                if (result == null)
-                    passed = false;
+                try {
+                    Pet result = _petservice.SaveNewPet(pet);
+                    if (result == null)
+                        passed = false;
+                }
+                catch (Exception e) {
+                    BadRequest(e.Message);
+                }
             }
             if (passed)
                 return Ok("Pets with has been added!");
@@ -76,7 +87,9 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPut("{id}")]
         public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
-            pet.ID = id;
+            if (id != pet.ID) {
+                return BadRequest("The pet ID in the URL does not mach the ID in the given pet object!");
+            }
             Pet result = _petservice.UpdatePet(pet);
             if (result != null)
                 return Ok("Pet with ID: " + id + " has been updated!");

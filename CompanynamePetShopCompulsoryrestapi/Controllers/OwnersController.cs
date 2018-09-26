@@ -39,7 +39,14 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner newowner)
         {
-            Owner result = _ownerservice.SaveNewOwner(newowner); ;
+            Owner result = null;
+            try {
+                result = _ownerservice.SaveNewOwner(newowner);
+            }
+            catch (Exception e) {
+                return BadRequest(e.Message);
+            }
+            
             if (result != null)
                 return Ok("Owner with ID: " + newowner.ID + " has been added!");
             else
@@ -66,7 +73,9 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         [HttpPut("{id}")]
         public ActionResult<Owner> Put(int id, [FromBody] Owner updateowner)
         {
-            updateowner.ID = id;
+            if (id != updateowner.ID) {
+                return BadRequest("The owner ID in the URL does not mach the ID in the given owner object!");
+            }
             Owner result = _ownerservice.UpdateOwner(updateowner);
             if (result != null)
                 return Ok("Owner with ID: " + id + " has been updated!");

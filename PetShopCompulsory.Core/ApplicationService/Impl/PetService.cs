@@ -36,6 +36,9 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public Pet SaveNewPet(Pet newPet)
         {
+            if (newPet.ID != 0) {
+                throw new InvalidDataException("New pet ID should not be set!");
+            }
             return _petRepository.Save(newPet);
         }
 

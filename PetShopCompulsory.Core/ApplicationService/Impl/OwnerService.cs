@@ -2,6 +2,7 @@
 using PetShopCompulsory.Core.Entity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -40,6 +41,9 @@ namespace PetShopCompulsory.Core.ApplicationService.Impl
 
         public Owner SaveNewOwner(Owner newOwner)
         {
+            if (newOwner.ID != 0) {
+                throw new InvalidDataException("New owner ID should not be set!");
+            }
             return _ownerRepository.Save(newOwner);
         }
 

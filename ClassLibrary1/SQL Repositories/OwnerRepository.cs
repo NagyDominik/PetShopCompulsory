@@ -53,7 +53,7 @@ namespace PetShopCompulsory.Infrastructure.Data.SQL_Repositories
             //return ownerUpdate;
 
             _ctx.Attach(ownerUpdate).State = EntityState.Modified;
-            _ctx.Entry(ownerUpdate).Collection(p => p.Pets).IsModified = true;
+            _ctx.Entry(ownerUpdate).Collection(o => o.Pets).IsModified = true;
             _ctx.SaveChanges();
             return ownerUpdate;
         }

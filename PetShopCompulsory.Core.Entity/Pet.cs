@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 namespace PetShopCompulsory.Core.Entity
 {
@@ -8,6 +10,7 @@ namespace PetShopCompulsory.Core.Entity
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Types Type { get; set; }
         public DateTime Birthdate { get; set; }
         public DateTime SoldDate { get; set; }

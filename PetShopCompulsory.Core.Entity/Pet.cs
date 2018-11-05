@@ -10,7 +10,7 @@ namespace PetShopCompulsory.Core.Entity
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        //[JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Types Type { get; set; }
         public DateTime Birthdate { get; set; }
         public DateTime SoldDate { get; set; }

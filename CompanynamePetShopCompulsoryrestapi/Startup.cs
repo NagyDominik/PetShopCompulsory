@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CompanynamePetShopCompulsoryrestapi.Utility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PetShop.Infrastructure.Data;
@@ -13,6 +16,7 @@ using PetShopCompulsory.Core.ApplicationService.Impl;
 using PetShopCompulsory.Core.DomainService;
 using PetShopCompulsory.Infrastructure.Data;
 using PetShopCompulsory.Infrastructure.Data.SQL_Repositories;
+using System;
 
 namespace CompanynamePetShopCompulsoryrestapi
 {
@@ -44,6 +48,20 @@ namespace CompanynamePetShopCompulsoryrestapi
             //services.AddDbContext<CustomerAppContext>(
             //    opt => opt.UseInMemoryDatabase("ThaDB")
             //    );
+
+            // Add JWT based authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateAudience = false,
+                    //ValidAudience = "TodoApiClient",
+                    ValidateIssuer = false,
+                    //ValidIssuer = "TodoApi",
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = JwtSecurityKey.Key,
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
 
             if (_env.IsDevelopment()) {
                 services.AddDbContext<PetShopCompulsoryContext>(
@@ -88,6 +106,8 @@ namespace CompanynamePetShopCompulsoryrestapi
             }
 
             app.UseHttpsRedirection();
+            // Use authentication
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetShopCompulsory.Core;
@@ -22,6 +23,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // GET: api/Owner
+        [Authorize]
         [HttpGet]
         public IEnumerable<Owner> Get()
         {
@@ -29,6 +31,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // GET: api/Owner/5
+        [Authorize]
         [HttpGet("{id}", Name = "Get")]
         public Owner Get(int id)
         {
@@ -36,6 +39,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // POST: api/Owner
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner newowner)
         {
@@ -54,6 +58,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // POST api/pets/multipost
+        [Authorize(Roles = "Administrator")]
         [HttpPost("multipost")]
         public ActionResult<Owner> PostMulti([FromBody] Owner[] owners)
         {
@@ -70,6 +75,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // PUT: api/Owner/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public ActionResult<Owner> Put(int id, [FromBody] Owner updateowner)
         {
@@ -84,6 +90,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult<Owner> Delete(int id)
         {

@@ -11,12 +11,20 @@ namespace PetShop.Infrastructure.Data
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
 
+            string password = "1234";
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
             Owner prewOwner1 = new Owner {
                 FirstName = "Dave",
                 LastName = "McColgan",
                 Address = "93 Mendota Road",
                 Email = "dave@fakemail.com",
-                PhoneNumber = "52467277"
+                PhoneNumber = "52467277",
+                Username = "ASD",
+                IsAdmin = true,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
 
             Owner prewOwner2 = new Owner {
@@ -24,7 +32,11 @@ namespace PetShop.Infrastructure.Data
                 LastName = "Wardlaw",
                 Address = "6 Commercial Lane",
                 Email = "mwardlaw7@fakemail.com",
-                PhoneNumber = "53595277"
+                PhoneNumber = "53595277",
+                Username = "ASDASD",
+                IsAdmin = false,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
 
             ctx.Owners.Add(prewOwner1);
@@ -109,6 +121,27 @@ namespace PetShop.Infrastructure.Data
             ctx.Pets.Add(pet7);
 
             ctx.SaveChanges();
+        }
+
+        // This method computes a hashed and salted password using the HMACSHA512 algorithm.
+        // The HMACSHA512 class computes a Hash-based Message Authentication Code (HMAC) using 
+        // the SHA512 hash function. When instantiated with the parameterless constructor (as
+        // here) a randomly Key is generated. This key is used as a password salt.
+
+        // The computation is performed as shown below:
+        //   passwordHash = SHA512(password + Key)
+
+        // A password salt randomizes the password hash so that two identical passwords will
+        // have significantly different hash values. This protects against sophisticated attempts
+        // to guess passwords, such as a rainbow table attack.
+        // The password hash is 512 bits (=64 bytes) long.
+        // The password salt is 1024 bits (=128 bytes) long.
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512()) {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

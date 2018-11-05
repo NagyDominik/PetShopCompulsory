@@ -23,7 +23,6 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // GET: api/Owner
-        [Authorize]
         [HttpGet]
         public IEnumerable<Owner> Get()
         {

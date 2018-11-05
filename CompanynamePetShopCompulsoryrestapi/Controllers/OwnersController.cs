@@ -23,6 +23,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // GET: api/Owner
+        //[Authorize]
         [HttpGet]
         public IEnumerable<Owner> Get()
         {
@@ -38,7 +39,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // POST: api/Owner
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner newowner)
         {
@@ -57,7 +58,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // POST api/pets/multipost
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         [HttpPost("multipost")]
         public ActionResult<Owner> PostMulti([FromBody] Owner[] owners)
         {
@@ -74,7 +75,7 @@ namespace CompanynamePetShopCompulsoryrestapi.Controllers
         }
 
         // PUT: api/Owner/5
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public ActionResult<Owner> Put(int id, [FromBody] Owner updateowner)
         {

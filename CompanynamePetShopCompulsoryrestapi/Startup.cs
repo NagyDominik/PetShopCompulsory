@@ -79,6 +79,8 @@ namespace CompanynamePetShopCompulsoryrestapi
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IOwnerService, OwnerService>();
 
+            services.AddCors();
+
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
@@ -104,6 +106,8 @@ namespace CompanynamePetShopCompulsoryrestapi
                 }
                 app.UseHsts();
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
             // Use authentication

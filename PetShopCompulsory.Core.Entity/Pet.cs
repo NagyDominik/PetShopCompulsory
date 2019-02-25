@@ -20,9 +20,11 @@ namespace PetShopCompulsory.Core.Entity
 
         public override string ToString()
         {
-            return "ID: " + ID + "  Name: " + Name +"  Type: " + Type + "  Birthdate: " + Birthdate + "\n" +
+            return "ID: " + ID + "  Name: " + Name + "  Type: " + Type + "  Birthdate: " + Birthdate + "\n" +
                    "SoldDate: " + SoldDate + "  Color: " + Color + "  PreviousOwner: " + PreviousOwner.ID +
                    ". " + PreviousOwner.FirstName + " " + PreviousOwner.LastName + "  Price: " + Price;
         }
+
+
     }
 }
